@@ -9,43 +9,61 @@
 <body>
 
     <header class="cabecalho-principal">
-        <a href="index.html" class="logo-site">
-            <h1>Já vi</h1>
-        </a>
-        <input type="text" placeholder="Pesquisar filmes..." class="caixa-pesquisa">
+        <div class="home"> 
+            <a href="index.html" class="logo-site">
+                <h1>Já vi</h1>
+            </a>
+        </div>
+        <div class="pesquisa-header"> 
+            <input type="text" placeholder="Pesquisar filmes globais..." class="caixa-pesquisa-global" id="caixaPesquisaGlobal">
+        </div>
     </header>
 
     <div class="conteudo-flex">
         <aside class="menu-lateral">
             <nav class="navegacao-principal">
                 <ul>
-                    <li><a href="">Perfil</a></li>
+                    <li><a href="#">Perfil</a></li>
                     <li><a href="lista-filmes.html">Lista de Filmes Assistidos</a></li>
                     <li><a href="adicionar-filme.html">Adicionar Filmes Assistido</a></li>
-                    <li><a href="">Recomendações</a></li>
+                    <li><a href="#">Recomendações</a></li>
                 </ul>
             </nav>
         </aside>
 
         <main class="conteudo-principal">
-            <section class="secao-adicionar-filme"> <h2>Adicionar Filme Assistido</h2>
+            <section class="secao-adicionar-filme">
+                <h2>Adicionar Filme Assistido</h2>
 
-                <form class="formulario-adicionar-filme">
+                <form id="formAdicionarFilme"> 
                     <div class="campo-form">
-                        <label for="tituloFilme">Título do Filme:</label>
-                        <input type="text" id="tituloFilme" name="tituloFilme" required>
+                        <label for="inputPesquisaFilme">Nome do Filme:</label>
+                        <input type="text" id="inputPesquisaFilme" placeholder="Digite o nome do filme..." autocomplete="off" required>
+                        <div id="resultadosPesquisaAutocomplete" class="resultados-pesquisa-autocomplete">
+                            </div>
+                    </div>
+
+                    <input type="hidden" id="filmeSelecionadoId">
+
+                    <div class="filme-selecionado-info" style="display: none;">
+                        <h3>Filme Selecionado:</h3>
+                        <img id="capaSelecionada" src="" alt="Capa do Filme" style="width: 100px; height: 150px; object-fit: cover; border-radius: 5px; margin-bottom: 10px;">
+                        <p><strong>Título:</strong> <span id="displayTituloSelecionado"></span></p>
+                        <p><strong>Ano:</strong> <span id="displayAnoSelecionado"></span></p>
+                        <p><strong>Gênero:</strong> <span id="displayGeneroSelecionado"></span></p>
+                        <p><strong>Sinopse:</strong> <span id="displaySinopseSelecionada"></span></p>
                     </div>
 
                     <div class="campo-form">
-                        <label for="minhaNota">Minha Nota (0-10):</label>
-                        <input type="number" id="minhaNota" name="minhaNota" min="0" max="10" step="0.5" placeholder="0" font-size="1.2em">
+                        <label for="minhaNota">Minha Nota (0 a 10):</label>
+                        <input type="number" id="minhaNota" name="minhaNota" min="0" max="10" step="0.5" value="5" placeholder="Ex: 8.5">
                     </div>
 
-                    <button type="submit" class="botao-adicionar">Adicionar Filme</button>
+                    <button type="submit" class="botao-adicionar">Adicionar à Lista</button>
                 </form>
             </section>
         </main>
     </div>
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

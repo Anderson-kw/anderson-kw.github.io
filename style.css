@@ -1,13 +1,15 @@
-body{
+body {
     background-color: #121212;
     margin: 0;
     font-family: Arial, sans-serif;
-    color:white;
-    min-height: 90vh;
-    width: 90vw;
+    color: white;
+    min-height: 90vh; /* Ajuste para ter espaço para o footer, se houver */
+    width: 90vw; /* Ajuste para centralizar o conteúdo */
+    margin: 0 auto; /* Centraliza o body na tela, se a viewport for maior que 90vw */
     display: flex;
     flex-direction: column;
 }
+
 .cabecalho-principal {
     color: white;
     padding: 15px 50px;
@@ -15,6 +17,7 @@ body{
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    box-sizing: border-box; /* Garante que padding não adicione largura extra */
 }
 
 .logo-site {
@@ -27,19 +30,27 @@ body{
     font-size: 48px;
 }
 
-.caixa-pesquisa {
+.pesquisa-header {
+    position: relative; /* Importante para o autocomplete da pesquisa global, se implementado */
+}
+
+.caixa-pesquisa-global { /* Renomeada para ser mais específica do cabeçalho */
     padding: 10px 35px;
     border: none;
     border-radius: 8px;
     width: 300px;
     text-align: center;
     font-size: 16px;
+    background-color: #B0B0B0; /* Cor de fundo para melhor visibilidade */
+    color: black;
 }
 
-.conteudo-flex{
+.conteudo-flex {
     display: flex;
     flex-grow: 1;
     gap: 20px;
+    padding: 0 20px; /* Adicionado padding para o conteúdo principal */
+    box-sizing: border-box;
 }
 
 .menu-lateral {
@@ -48,6 +59,7 @@ body{
     padding: 20px 0;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
     flex-shrink: 0;
+    border-radius: 8px; /* Adicionado um pouco de arredondamento */
 }
 
 .navegacao-principal ul {
@@ -61,11 +73,19 @@ body{
     color: #B0B0B0;
     padding: 10px 20px;
     font-size: 20px;
+    text-decoration: none;
+    transition: background-color 0.3s ease; /* Transição suave ao passar o mouse */
+}
+
+.navegacao-principal li a:hover {
+    background-color: #333;
+    color: white;
 }
 
 .conteudo-principal {
     flex-grow: 1;
-    padding: 20px;
+    padding: 20px; /* Mantido padding, mas o padding externo do conteudo-flex já ajuda */
+    box-sizing: border-box;
 }
 
 .filmes-recentes {
@@ -81,10 +101,29 @@ body{
 
 .lista-filmes-horizontal {
     display: flex;
-    overflow-x: auto;
+    overflow-x: auto; /* Permite rolagem horizontal */
     padding-bottom: 10px;
     gap: 30px;
+    scrollbar-width: thin; /* Para navegadores Firefox */
+    scrollbar-color: #555 #1e1e1e; /* Cor da barra de rolagem para Firefox */
 }
+
+/* Estilo da barra de rolagem para WebKit (Chrome, Safari) */
+.lista-filmes-horizontal::-webkit-scrollbar {
+    height: 8px;
+}
+
+.lista-filmes-horizontal::-webkit-scrollbar-track {
+    background: #1e1e1e;
+    border-radius: 10px;
+}
+
+.lista-filmes-horizontal::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 10px;
+    border: 2px solid #1e1e1e;
+}
+
 
 .card-filme-recente {
     background-color: #222;
@@ -92,11 +131,12 @@ body{
     padding: 15px;
     text-align: center;
     min-width: 180px;
-    flex-shrink: 0;
+    flex-shrink: 0; /* Impede que os cards diminuam */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Sombra para destaque */
 }
 
 .card-filme-recente img {
@@ -111,22 +151,40 @@ body{
     margin-top: 0;
     margin-bottom: 10px;
     font-size: 1.1em;
+    flex-grow: 1; /* Permite que o título ocupe o espaço necessário */
+    display: -webkit-box; /* Para limitar linhas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona "..." se o texto for cortado */
 }
 
-.botao-sinopse {
+.botao-sinopse { /* Mantido caso você queira um estilo diferente para os botões de sinopse específicos */
     color: #E50914;
     padding: 8px 15px;
     border-radius: 5px;
     margin-top: auto;
     font-size: 15px;
+    background: none; /* Geralmente é um link, mas se for botão */
+    border: 1px solid #E50914; /* Borda para destaque */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.botao-sinopse:hover {
+    background-color: #E50914;
+    color: white;
+}
+
+
+/* --- SEÇÃO ADICIONAR FILME --- */
 .secao-adicionar-filme {
     max-width: 600px;
     margin: 30px auto;
     padding: 30px;
     background-color: #222;
     border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    position: relative; /* ESSENCIAL para o posicionamento do autocomplete */
 }
 
 .secao-adicionar-filme h2 {
@@ -136,39 +194,118 @@ body{
     font-size: 2em;
 }
 
-.formulario-adicionar-filme {
+.formulario-adicionar-filme { /* Esta classe está no form do HTML */
     display: flex;
     flex-direction: column;
     gap: 20px;
-    align-items: center;
+    align-items: center; /* Centraliza os itens dentro do formulário */
+}
+
+.campo-form {
+    width: 100%; /* Ocupa a largura total do pai */
+    text-align: center; /* Centraliza label e input */
+    position: relative; /* Se houver elementos posicionados dentro de campo-form */
 }
 
 .campo-form label {
-    display: block; 
+    display: block;
     margin-bottom: 8px;
-    color: white; 
+    color: white;
     font-weight: bold;
-    text-align: center;
+    text-align: center; /* Garante que o label esteja centralizado */
 }
 
 .campo-form input[type="text"] {
-    width: 100%;
+    width: calc(100% - 24px); /* Ajusta para padding */
     padding: 12px;
-    border-radius: 6px; 
-    background-color: #B0B0B0; 
+    border: none; /* Remove a borda padrão */
+    border-radius: 6px;
+    background-color: #B0B0B0;
     color: black;
     font-size: 1.3em;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Padding incluído na largura */
+    text-align: center; /* Centraliza o texto digitado */
 }
 .campo-form input[type="number"]{
     width: 80px;
     padding: 12px;
-    border-radius: 6px; 
+    border: none; /* Remove a borda padrão */
+    border-radius: 6px;
     background-color: #B0B0B0;
     color: black;
     font-size: 1.3em;
     text-align: center;
+    box-sizing: border-box;
 }
+
+.filme-selecionado-info {
+    background-color: #2e2e2e;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5); /* Sombra interna */
+}
+
+.filme-selecionado-info h3 {
+    color: white;
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.5em;
+}
+
+.filme-selecionado-info img {
+    margin-bottom: 15px;
+}
+
+.filme-selecionado-info p {
+    margin: 0;
+    color: #ccc;
+    line-height: 1.4;
+}
+
+.filme-selecionado-info strong {
+    color: white;
+}
+
+
+/* --- ESTILOS PARA AUTOCOMPLETAR (NOVO) --- */
+.resultados-pesquisa-autocomplete {
+    background-color: #2e2e2e; /* Fundo mais escuro para a caixa de sugestões */
+    border: 1px solid #444;
+    border-radius: 6px;
+    max-height: 200px; /* Limita a altura da lista */
+    overflow-y: auto; /* Adiciona scroll se a lista for muito longa */
+    position: absolute; /* ESSENCIAL para posicionar a lista corretamente em relação ao seu pai com position: relative */
+    z-index: 100; /* Garante que a lista fique acima de outros elementos */
+    width: calc(100% - 60px); /* Ajusta a largura para o padding do elemento pai (.secao-adicionar-filme) */
+    left: 30px; /* Alinha com o padding-left do pai */
+    margin-top: 2px; /* Pequeno espaço entre o input e a lista */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Uma leve sombra para destacar */
+    /* display: none; -> O JavaScript controlará a visibilidade */
+}
+
+.item-autocomplete {
+    padding: 10px 15px;
+    cursor: pointer; /* Indica que o item é clicável */
+    color: #f0f0f0; /* Cor do texto */
+    border-bottom: 1px solid #3a3a3a; /* Linha divisória entre os itens */
+    font-size: 1em;
+    text-align: left; /* Garante que o texto do item fique à esquerda */
+}
+
+.item-autocomplete:last-child {
+    border-bottom: none; /* Remove a borda do último item para melhor estética */
+}
+
+.item-autocomplete:hover {
+    background-color: #4a4a4a; /* Cor de fundo ao passar o mouse */
+}
+
 
 .botao-adicionar {
     background-color: #E50914;
@@ -181,8 +318,16 @@ body{
     margin-top: 15px;
     align-self: center;
     width: auto;
+    cursor: pointer; /* Indica que é clicável */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Adiciona transição suave */
 }
 
+.botao-adicionar:hover {
+    background-color: #FF2431; /* Tom ligeiramente mais claro ao passar o mouse */
+    transform: translateY(-2px); /* Efeito de "subir" um pouco */
+}
+
+/* --- SEÇÃO MEUS FILMES (TABELA) --- */
 .secao-meus-filmes {
     position: relative;
     max-width: 900px;
@@ -190,16 +335,17 @@ body{
     padding: 30px;
     background-color: #222;
     border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
 .secao-meus-filmes h2 {
     text-align: center;
     color: white;
-    font-size: 2em;;
+    font-size: 2em;
     margin-bottom: 25px;
 }
 
-.botao-filtro {
+.botao-filtro { /* Ainda não implementado no JS, mas o estilo está aqui */
     position: absolute;
     top: 20px;
     right: 20px;
@@ -212,10 +358,18 @@ body{
     font-size: 1em;
     display: flex;
     align-items: center;
+    justify-content: center;
+    width: 40px; /* Garante que seja um círculo */
+    height: 40px; /* Garante que seja um círculo */
+    transition: background-color 0.3s ease;
+}
+.botao-filtro:hover {
+    background-color: #ccc;
 }
 
+
 .tabela-responsiva {
-    overflow-x: auto;
+    overflow-x: auto; /* Permite rolagem horizontal em telas pequenas */
     margin-top: 20px;
 }
 
@@ -223,9 +377,10 @@ body{
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    min-width: 600px; /* Garante que a tabela não fique muito estreita */
 }
 
-.tabela-filmes th,.tabela-filmes td {
+.tabela-filmes th, .tabela-filmes td {
     border: 1px solid #444;
     padding: 12px;
     text-align: center;
@@ -235,33 +390,53 @@ body{
 .tabela-filmes th {
     background-color: #333;
     font-weight: bold;
+    text-transform: uppercase; /* Deixa os cabeçalhos mais profissionais */
 }
 
-.botao-tabela-detalhes {
+.tabela-filmes tbody tr:nth-child(even) { /* Estilo para linhas pares */
+    background-color: #2a2a2a;
+}
+
+.tabela-filmes tbody tr:hover { /* Efeito ao passar o mouse na linha */
+    background-color: #3a3a3a;
+}
+
+
+.botao-detalhes {
     background-color: #B0B0B0;
     color: black;
     border: none;
     padding: 8px;
     border-radius: 50%;
-    width: 35px;
-    height: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.botao-detalhes img {
+    width: 25px; /* Ajuste para o tamanho do ícone */
+    height: 25px;
+    filter: invert(0%); /* Garante que a imagem seja preta se for um ícone branco */
+}
+.botao-detalhes:hover {
+    background-color: #ccc;
 }
 
+
+/* --- ESTILOS DO MODAL --- */
 .modal {
-    display: none;
+    display: none; /* O JS controla a visibilidade */
     position: fixed;
-    z-index: 1000;
+    z-index: 1000; /* Acima de tudo */
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%; 
-    overflow: auto;
-    display: flex;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente */
     justify-content: center;
-    align-items: center
+    align-items: center;
+    overflow: auto; /* Permite rolagem se o conteúdo for grande */
 }
 
 .modal-conteudo {
@@ -270,9 +445,16 @@ body{
     padding: 30px;
     border-radius: 10px;
     max-width: 600px;
-    width: 90%;
+    width: 90%; /* Ocupa 90% da largura, até o max-width */
     position: relative;
     color: white;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6); /* Sombra mais forte para o modal */
+    animation: fadeIn 0.3s ease-out; /* Animação de entrada */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .fechar-modal {
@@ -283,13 +465,33 @@ body{
     top: 10px;
     right: 15px;
     cursor: pointer;
+    transition: color 0.3s ease;
 }
+
+.fechar-modal:hover,
+.fechar-modal:focus {
+    color: white;
+}
+
+.fechar-modal img { /* Ajuste para o ícone de fechar */
+    width: 30px;
+    height: 30px;
+    vertical-align: middle; /* Alinha a imagem verticalmente */
+    filter: invert(70%); /* Deixa a imagem mais clara */
+    transition: filter 0.3s ease;
+}
+
+.fechar-modal:hover img {
+    filter: invert(100%); /* Deixa a imagem branca no hover */
+}
+
 
 .modal-body {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: 10px; /* Espaçamento entre os elementos do modal */
 }
 
 .modal-filme-capa {
@@ -297,13 +499,141 @@ body{
     height: auto;
     border-radius: 8px;
     margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra na capa do filme */
+}
+
+.modal-body h3 {
+    margin-bottom: 10px;
+    font-size: 2em;
+    color: #E50914; /* Cor para o título no modal */
 }
 
 .modal-body p {
-    margin-bottom: 8px;
-    line-height: 1.5;
+    margin: 5px 0; /* Espaçamento ajustado */
+    line-height: 1.6;
+    max-width: 90%; /* Limita a largura do texto da sinopse */
 }
 
 .modal-body strong {
     color: #ccc;
+}
+
+/* --- RESPONSIVIDADE BÁSICA --- */
+@media (max-width: 768px) {
+    .cabecalho-principal {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+
+    .logo-site h1 {
+        font-size: 36px;
+        margin-bottom: 15px;
+    }
+
+    .caixa-pesquisa-global {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .conteudo-flex {
+        flex-direction: column;
+        padding: 0 10px;
+    }
+
+    .menu-lateral {
+        width: 100%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        padding: 10px 0;
+    }
+
+    .navegacao-principal ul {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .navegacao-principal li a {
+        padding: 8px 10px;
+        font-size: 16px;
+    }
+
+    .conteudo-principal {
+        padding: 10px;
+    }
+
+    .secao-adicionar-filme,
+    .secao-meus-filmes {
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .campo-form input[type="text"] {
+        width: calc(100% - 20px); /* Ajuste para padding menor */
+    }
+
+    .resultados-pesquisa-autocomplete {
+        width: calc(100% - 40px); /* Ajuste para padding menor do pai */
+        left: 20px;
+    }
+
+    .tabela-filmes {
+        min-width: unset; /* Remove min-width em telas pequenas */
+    }
+
+    .tabela-filmes th, .tabela-filmes td {
+        padding: 8px;
+        font-size: 0.8em;
+    }
+
+    .tabela-filmes td img {
+        width: 40px;
+        height: 60px;
+    }
+
+    .botao-detalhes img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .modal-conteudo {
+        padding: 20px;
+        width: 95%;
+    }
+
+    .modal-filme-capa {
+        max-width: 150px;
+    }
+
+    .modal-body h3 {
+        font-size: 1.5em;
+    }
+}
+
+/* Media query para telas muito pequenas */
+@media (max-width: 480px) {
+    .cabecalho-principal {
+        padding: 10px;
+    }
+    .logo-site h1 {
+        font-size: 30px;
+    }
+    .caixa-pesquisa-global {
+        font-size: 14px;
+        padding: 8px 20px;
+    }
+    .navegacao-principal li a {
+        font-size: 14px;
+        padding: 6px 8px;
+    }
+    .card-filme-recente {
+        min-width: 150px;
+        padding: 10px;
+    }
+    .card-filme-recente img {
+        max-width: 120px;
+    }
+    .botao-adicionar {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
 }

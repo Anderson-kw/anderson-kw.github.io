@@ -1,9 +1,4 @@
-// script.js
-
-// --- Configurações da API TMDB ---
-// ATENÇÃO: SUBSTITUA 'SUA_CHAVE_AQUI' PELA SUA CHAVE DE API (v3 auth) REAL DO TMDB.
-// Acesse: https://www.themoviedb.org/settings/api para obter a sua chave.
-const TMDB_API_KEY = '1058045695cdc5a9f7c5533e16b91eda'; // EX: '1234567890abcdef1234567890abcdef'
+const TMDB_API_KEY = '1058045695cdc5a9f7c5533e16b91eda';
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
@@ -64,8 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Página: Lista de Filmes Assistidos');
         carregarListaFilmes();
     }
-    // A pesquisa global está presente em todas as páginas
-    configurarPesquisaGlobal();
+
 });
 
 // --- Funções Específicas de Páginas ---
@@ -89,7 +83,7 @@ async function carregarFilmesEmDestaque() {
             // Itera sobre os primeiros 10 filmes (ou menos se houver menos resultados)
             data.results.slice(0, 10).forEach(filme => {
                 const cardFilme = document.createElement('div');
-                cardFilme.classList.add('card-filme-recente');
+                cardFilme.classList.add('card-filme-destaque');
                 cardFilme.innerHTML = `
                     <img src="${filme.poster_path ? TMDB_IMAGE_BASE_URL + filme.poster_path : 'https://via.placeholder.com/150x225?text=Sem+Capa'}" alt="${filme.title}">
                     <h4>${filme.title}</h4>
@@ -110,7 +104,7 @@ async function carregarFilmesEmDestaque() {
 
         } else {
             // Mensagem caso não consiga carregar os filmes
-            containerDestaque.innerHTML = '<p style="text-align: center; padding: 20px; color: #B0B0B0;">Não foi possível carregar os filmes em destaque. Verifique a chave da API.</p>';
+            containerDestaque.innerHTML = '<p style="text-align: center; padding: 20px; color: #B0B0B0;">Não foi possível carregar os filmes em destaque.</p>';
             console.error("Dados de filmes populares não encontrados ou vazios:", data);
         }
     } catch (error) {
@@ -289,7 +283,7 @@ async function carregarListaFilmes() {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td><img src="${filme.capa}" alt="${filme.titulo}" style="width: 50px; height: 75px; object-fit: cover; border-radius: 3px;"></td>
-            <td></td> <td>${filme.titulo}</td>
+            <td>${filme.titulo}</td>
             <td>${filme.ano}</td>
             <td>${filme.genero}</td>
             <td>${filme.minhaNota.toFixed(1)}</td>
@@ -339,22 +333,4 @@ async function carregarListaFilmes() {
             modalDetalhesFilme.style.display = 'none';
         }
     });
-}
-
-// Função para configurar a barra de pesquisa global no cabeçalho
-function configurarPesquisaGlobal() {
-    const caixaPesquisaGlobal = document.getElementById('caixaPesquisaGlobal');
-
-    if (caixaPesquisaGlobal) {
-        caixaPesquisaGlobal.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                const query = caixaPesquisaGlobal.value.trim();
-                if (query) {
-                    alert(`Pesquisa global por: "${query}" - A ser implementada!`);
-                    // Futuramente, você pode redirecionar para uma página de resultados de pesquisa global
-                    // window.location.href = `search-results.html?query=${encodeURIComponent(query)}`;
-                }
-            }
-        });
-    }
 }
